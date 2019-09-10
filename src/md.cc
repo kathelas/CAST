@@ -1621,6 +1621,39 @@ void md::simulation::integrator(bool fep, std::size_t k_init, bool beeman)
 		// calculate new energy & gradients
 		coordobj.g();
 
+		//---------------------------------------------------
+		//calculating temperature or whatever
+		//WIP
+		/*
+		double all_x_squared = 0.0;
+		double all_y_squared = 0.0;
+		double all_z_squared = 0.0;
+
+		for (auto p : P)
+		{
+			all_x_squared += pow(p.x(), 2);
+			all_y_squared += pow(p.y(), 2);
+			all_z_squared += pow(p.z(), 2);
+		}
+
+		//root mean square
+		double rms_x = sqrt(all_x_squared / P.size());
+		double rms_y = sqrt(all_y_squared / P.size());
+		double rms_z = sqrt(all_z_squared / P.size());
+
+		//not like this? lets keep it for now
+		*/
+		//maybe like this
+		double all_rms = 0.0;
+
+		for (auto p : P)
+		{
+			all_rms += sqrt(( pow(p.x(), 2) + pow(p.y(), 2) + pow(p.z(), 2) ) / 3);
+		}
+
+		double value_we_want = all_rms / P.size();
+
+
 		// Apply umbrella potential if umbrella sampling is used
 		if (CONFIG.umbrella == true)
 		{
